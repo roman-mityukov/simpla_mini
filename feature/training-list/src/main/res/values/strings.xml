@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_training_list_selection">Выбор тренировки</string>
+    <string name="feature_training_list_button_load">Загрузить</string>
+    <string name="feature_training_list_error">Что-то пошло не так...</string>
+</resources>
