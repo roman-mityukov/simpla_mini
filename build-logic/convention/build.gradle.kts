@@ -1,0 +1,63 @@
+plugins {
+    `kotlin-dsl`
+}
+
+group = "io.mityukov.simpla.buildlogic"
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+    }
+}
+
+dependencies {
+    compileOnly(libs.android.gradleApiPlugin)
+    compileOnly(libs.android.tools.common)
+    compileOnly(libs.compose.gradlePlugin)
+    compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.ksp.gradlePlugin)
+    compileOnly(libs.room.gradlePlugin)
+    compileOnly(libs.roborazzi.gradlePlugin)
+    compileOnly(libs.detekt.gradlePlugin)
+}
+
+tasks {
+    validatePlugins {
+        enableStricterValidation = true
+        failOnWarning = true
+    }
+}
+
+
+gradlePlugin {
+    plugins {
+        register("androidLibraryCompose") {
+            id = libs.plugins.simpla.android.library.compose.get().pluginId
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
+        }
+        register("androidLibrary") {
+            id = libs.plugins.simpla.android.library.asProvider().get().pluginId
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
+        register("androidFeature") {
+            id = libs.plugins.simpla.android.feature.get().pluginId
+            implementationClass = "AndroidFeatureConventionPlugin"
+        }
+        register("hilt") {
+            id = libs.plugins.simpla.hilt.get().pluginId
+            implementationClass = "HiltConventionPlugin"
+        }
+        register("jvmLibrary") {
+            id = libs.plugins.simpla.jvm.library.get().pluginId
+            implementationClass = "JvmLibraryConventionPlugin"
+        }
+        register("root") {
+            id = libs.plugins.simpla.root.get().pluginId
+            implementationClass = "RootPlugin"
+        }
+    }
+}

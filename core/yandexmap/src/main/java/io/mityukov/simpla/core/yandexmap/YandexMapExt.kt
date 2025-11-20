@@ -1,0 +1,92 @@
+package io.mityukov.simpla.core.yandexmap
+
+import android.content.Context
+import android.graphics.PointF
+import androidx.core.content.ContextCompat
+import com.yandex.mapkit.geometry.Geometry
+import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.geometry.Polyline
+import com.yandex.mapkit.map.CameraPosition
+import com.yandex.mapkit.map.IconStyle
+import com.yandex.mapkit.map.LineStyle
+import com.yandex.mapkit.mapview.MapView
+import com.yandex.runtime.image.ImageProvider
+import io.mityukov.geo.tracking.core.yandexmap.R
+import io.mityukov.simpla.core.domain.geo.Geolocation
+
+fun MapView.showTrack(context: Context, geolocations: List<Geolocation>, moveCamera: Boolean) {
+    map.mapObjects.clear()
+
+    val points = geolocations.map {
+        Point(it.latitude, it.longitude)
+    }
+    val startImageProvider =
+        ImageProvider.fromResource(context, R.drawable.core_ui_pin_start)
+    val finishImageProvider =
+        ImageProvider.fromResource(context, R.drawable.core_ui_pin_finish)
+    val pinsCollection = map.mapObjects.addCollection()
+    val placemarkIconStyle = IconStyle().apply {
+        anchor = PointF(
+            TrackAppearanceSettings.PLACEMARK_ANCHOR_X,
+            TrackAppearanceSettings.PLACEMARK_ANCHOR_Y
+        )
+        scale = TrackAppearanceSettings.PLACEMARK_SCALE
+    }
+
+    val startPoint = points.first()
+    val startPlacemark = pinsCollection.addPlacemark()
+    startPlacemark.apply {
+        geometry = Point(startPoint.latitude, startPoint.longitude)
+        setIcon(
+            if (points.size > 1) {
+                startImageProvider
+            } else {
+                finishImageProvider
+            }
+        )
+    }
+    startPlacemark.setIconStyle(placemarkIconStyle)
+
+    if (points.size > 1) {
+        val finishPoint = points.last()
+        val finishPlacemark = pinsCollection.addPlacemark()
+        finishPlacemark.apply {
+            geometry = Point(finishPoint.latitude, finishPoint.longitude)
+            setIcon(finishImageProvider)
+        }
+        finishPlacemark.setIconStyle(placemarkIconStyle)
+    }
+
+    val geometry = if (points.size > 1) {
+        val polyline = Polyline(points)
+        val polylineObject = map.mapObjects.addPolyline(polyline)
+        polylineObject.apply {
+            style = LineStyle().apply {
+                strokeWidth = 2f
+                turnRadius = 0f
+                setStrokeColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.core_yandexmap_track
+                    )
+                )
+            }
+        }
+
+        Geometry.fromPolyline(polyline)
+    } else {
+        Geometry.fromPoint(points.first())
+    }
+
+    if (moveCamera) {
+        val position = map.cameraPosition(geometry)
+        map.move(
+            CameraPosition(
+                position.target,
+                position.zoom - TrackAppearanceSettings.ZOOM_OUT_CORRECTION_DETAILS,
+                position.azimuth,
+                position.tilt
+            )
+        )
+    }
+}
