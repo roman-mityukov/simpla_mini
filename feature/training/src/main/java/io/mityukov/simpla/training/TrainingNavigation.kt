@@ -9,6 +9,6 @@ import kotlinx.serialization.Serializable
 data object TrainingRoute : NavKey
 
 @Composable
-fun TrainingRouteHost(snackbarHostState: SnackbarHostState, onBack: () -> Unit) {
-    TrainingScreen(snackbarHostState = snackbarHostState, onBack = onBack)
+fun TrainingRouteHost(onBack: () -> Unit) {
+    TrainingScreen(onBack = onBack)
 }

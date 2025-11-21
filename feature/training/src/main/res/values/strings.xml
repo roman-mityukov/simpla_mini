@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feature_training_label">Тренировка</string>
+    <string name="feature_training_duration">Продолжительность тренировки %1$s</string>
+    <string name="feature_training_button_stop">Стоп</string>
+    <string name="feature_training_button_start">Старт</string>
+    <string name="feature_training_button_map">Карта</string>
+</resources>

@@ -22,17 +22,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import io.mityukov.training_list.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun TrainingListScreen(
-    snackbarHostState: SnackbarHostState,
     viewModel: TrainingListViewModel = hiltViewModel(),
     onTrainingReceived: () -> Unit,
 ) {
@@ -43,11 +44,8 @@ internal fun TrainingListScreen(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(title = {
-                Text("Выбор тренировки")
+                Text(stringResource(R.string.feature_training_list_selection))
             })
-        },
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
         },
     ) { innerPadding ->
         Box(
@@ -99,11 +97,11 @@ private fun TrainingListContent(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(onClick = onGetTraining, enabled = enabled) {
-                    Text("Загрузить")
+                    Text(stringResource(R.string.feature_training_list_button_load))
                 }
                 if (viewModelState.error) {
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "Что-то пошло не так...", color = Color.Red)
+                    Text(text = stringResource(R.string.feature_training_list_error), color = Color.Red)
                 }
                 if (viewModelState.pending) {
                     Spacer(modifier = Modifier.height(8.dp))

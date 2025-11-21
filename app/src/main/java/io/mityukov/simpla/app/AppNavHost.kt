@@ -1,6 +1,5 @@
 package io.mityukov.simpla.app
 
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
@@ -13,8 +12,6 @@ import io.mityukov.simpla.training.list.TrainingListRouteHost
 
 @Composable
 fun AppNavHost(trainingLaunched: Boolean) {
-    val snackbarHostState = remember { SnackbarHostState() }
-
     val backStack = remember {
         mutableStateListOf<Any>(if (trainingLaunched) TrainingRoute else TrainingListRoute)
     }
@@ -25,7 +22,6 @@ fun AppNavHost(trainingLaunched: Boolean) {
         entryProvider = entryProvider {
             entry<TrainingListRoute> {
                 TrainingListRouteHost(
-                    snackbarHostState = snackbarHostState,
                     onTrainingReceived = {
                         backStack.add(TrainingRoute)
                     },
@@ -33,9 +29,13 @@ fun AppNavHost(trainingLaunched: Boolean) {
             }
             entry<TrainingRoute> {
                 TrainingRouteHost(
-                    snackbarHostState = snackbarHostState,
                     onBack = {
-                        backStack.removeLastOrNull()
+                        if (backStack.size == 1) {
+                            backStack.clear()
+                            backStack.add(TrainingListRoute)
+                        } else {
+                            backStack.removeLastOrNull()
+                        }
                     },
                 )
             }

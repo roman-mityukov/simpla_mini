@@ -1,5 +1,6 @@
 package io.mityukov.simpla.network.retrofit
 
+import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.Serializable
 import retrofit2.Call
 import retrofit2.http.GET
