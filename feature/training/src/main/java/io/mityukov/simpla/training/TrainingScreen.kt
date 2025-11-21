@@ -47,7 +47,7 @@ import io.mityukov.simpla.core.designsystem.component.ButtonBack
 import io.mityukov.simpla.core.domain.training.IntervalProgress
 import io.mityukov.simpla.core.domain.training.IntervalType
 import io.mityukov.simpla.core.domain.training.TrainingProgress
-import io.mityukov.simpla.core.domain.training.TrainingStatusEnum
+import io.mityukov.simpla.core.domain.training.TrainingLaunchStatus
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
@@ -188,7 +188,10 @@ private fun IntervalProgressWidget(
     intervalProgress: IntervalProgress
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
-        Text(text = intervalProgress.intervalType.name)
+        Text(text = when (intervalProgress.intervalType) {
+            IntervalType.Walk -> stringResource(R.string.feature_training_interval_type_walk)
+            IntervalType.Run -> stringResource(R.string.feature_training_interval_type_run)
+        })
         Spacer(modifier = Modifier.height(8.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -261,7 +264,7 @@ fun TrainingWithMapPreview() {
             ),
             currentDuration = 5.seconds,
             track = listOf(),
-            status = TrainingStatusEnum.NotStarted,
+            status = TrainingLaunchStatus.NotStarted,
         ),
         onSwitchTraining = {}
     )

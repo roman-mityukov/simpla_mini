@@ -3,7 +3,7 @@ package io.mityukov.simpla.core.domain.training
 import io.mityukov.simpla.core.domain.geo.Geolocation
 import kotlin.time.Duration
 
-enum class TrainingStatusEnum {
+enum class TrainingLaunchStatus {
     NotStarted,
     Started,
     Completed,
@@ -13,10 +13,10 @@ data class TrainingProgress(
     val intervalProgress: List<IntervalProgress>,
     val currentDuration: Duration,
     val track: List<Geolocation>,
-    val status: TrainingStatusEnum,
+    val status: TrainingLaunchStatus,
 ) {
     val launched: Boolean
-        get() = status == TrainingStatusEnum.Started
+        get() = status == TrainingLaunchStatus.Started
     val completedIntervals: Int
         get() = intervalProgress.filter { it.progress == 1f }.size
 }

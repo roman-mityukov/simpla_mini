@@ -5,4 +5,6 @@
     <string name="feature_training_button_stop">Стоп</string>
     <string name="feature_training_button_start">Старт</string>
     <string name="feature_training_button_map">Карта</string>
+    <string name="feature_training_interval_type_walk">Ходьба</string>
+    <string name="feature_training_interval_type_run">Бег</string>
 </resources>

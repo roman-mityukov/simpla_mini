@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
@@ -103,9 +104,11 @@ private fun TrainingListContent(
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(text = stringResource(R.string.feature_training_list_error), color = Color.Red)
                 }
-                if (viewModelState.pending) {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    CircularProgressIndicator()
+                Spacer(modifier = Modifier.height(8.dp))
+                Box(modifier = Modifier.size(64.dp), contentAlignment = Alignment.Center) {
+                    if (viewModelState.pending) {
+                        CircularProgressIndicator()
+                    }
                 }
             }
         }

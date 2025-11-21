@@ -11,7 +11,7 @@ import io.mityukov.simpla.core.domain.training.Training
 import io.mityukov.simpla.core.domain.training.TrainingController
 import io.mityukov.simpla.core.domain.training.TrainingProgress
 import io.mityukov.simpla.core.domain.training.TrainingStatus
-import io.mityukov.simpla.core.domain.training.TrainingStatusEnum
+import io.mityukov.simpla.core.domain.training.TrainingLaunchStatus
 import io.mityukov.simpla.core.data.repository.training.ForegroundTrainingService
 import io.mityukov.simpla.core.data.repository.training.SelectedTrainingRepository
 import io.mityukov.simpla.core.data.repository.training.TrainingTimer
@@ -42,7 +42,7 @@ private fun Training.toEmptyProgress(): TrainingStatus.Progress {
             intervalProgress = intervalProgress,
             currentDuration = 0.seconds,
             track = listOf(),
-            status = TrainingStatusEnum.NotStarted,
+            status = TrainingLaunchStatus.NotStarted,
         )
     )
 }
@@ -136,7 +136,7 @@ class TrainingControllerImpl @Inject constructor(
 
         mutableStateFlow.update {
             TrainingStatus.Progress(
-                data = currentStatus.data.copy(status = TrainingStatusEnum.Completed)
+                data = currentStatus.data.copy(status = TrainingLaunchStatus.Completed)
             )
         }
     }
@@ -160,7 +160,7 @@ class TrainingControllerImpl @Inject constructor(
                         val newProgress = currentProgress.copy(
                             intervalProgress = training.toListIntervalProgress(timerDuration.seconds),
                             currentDuration = timerDuration.seconds,
-                            status = TrainingStatusEnum.Started,
+                            status = TrainingLaunchStatus.Started,
                         )
                         if (newProgress.completedIntervals > currentProgress.completedIntervals) {
                             soundManager.playBeep()
@@ -205,7 +205,7 @@ class TrainingControllerImpl @Inject constructor(
         val currentStatus = status.first() as TrainingStatus.Progress
         mutableStateFlow.update {
             TrainingStatus.Progress(
-                data = currentStatus.data.copy(status = TrainingStatusEnum.Started)
+                data = currentStatus.data.copy(status = TrainingLaunchStatus.Started)
             )
         }
 
