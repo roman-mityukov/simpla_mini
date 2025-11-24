@@ -1,7 +1,6 @@
 <resources>
 
-    <string name="app_name">Test Simpla</string>
-    <string name="app_name_test">Тест</string>
+    <string name="app_name">Митюков Simpla</string>
     <string name="core_designsystem_content_description_back_button">Кнопка назад</string>
     <string name="core_ui_content_description_arrow_right">Выбрать</string>
 

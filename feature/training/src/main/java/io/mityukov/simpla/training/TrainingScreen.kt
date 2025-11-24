@@ -46,8 +46,8 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import io.mityukov.simpla.core.designsystem.component.ButtonBack
 import io.mityukov.simpla.core.domain.training.IntervalProgress
 import io.mityukov.simpla.core.domain.training.IntervalType
-import io.mityukov.simpla.core.domain.training.TrainingProgress
 import io.mityukov.simpla.core.domain.training.TrainingLaunchStatus
+import io.mityukov.simpla.core.domain.training.TrainingProgress
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
@@ -173,7 +173,8 @@ private fun TrainingProgressWidget(modifier: Modifier = Modifier, progress: Trai
                 Text(
                     text = stringResource(
                         R.string.feature_training_duration,
-                        DateUtils.formatElapsedTime(progress.currentDuration.inWholeSeconds)
+                        DateUtils.formatElapsedTime(progress.currentDuration.inWholeSeconds),
+                            DateUtils.formatElapsedTime(progress.totalDuration.inWholeSeconds)
                     ),
                     style = MaterialTheme.typography.bodyMedium,
                 )
@@ -188,10 +189,7 @@ private fun IntervalProgressWidget(
     intervalProgress: IntervalProgress
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
-        Text(text = when (intervalProgress.intervalType) {
-            IntervalType.Walk -> stringResource(R.string.feature_training_interval_type_walk)
-            IntervalType.Run -> stringResource(R.string.feature_training_interval_type_run)
-        })
+        Text(text = intervalProgress.title)
         Spacer(modifier = Modifier.height(8.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -251,18 +249,19 @@ fun TrainingWithMapPreview() {
             intervalProgress = listOf(
                 IntervalProgress(
                     progress = 0.2f,
-                    intervalType = IntervalType.Run,
+                    title = "title",
                     duration = 10.seconds,
                     currentDuration = 5.seconds
                 ),
                 IntervalProgress(
                     progress = 0f,
-                    intervalType = IntervalType.Walk,
+                    title = "title",
                     duration = 20.seconds,
                     currentDuration = 0.seconds
                 ),
             ),
             currentDuration = 5.seconds,
+            totalDuration = 10.seconds,
             track = listOf(),
             status = TrainingLaunchStatus.NotStarted,
         ),

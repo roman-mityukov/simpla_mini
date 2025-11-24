@@ -12,6 +12,7 @@ enum class TrainingLaunchStatus {
 data class TrainingProgress(
     val intervalProgress: List<IntervalProgress>,
     val currentDuration: Duration,
+    val totalDuration: Duration,
     val track: List<Geolocation>,
     val status: TrainingLaunchStatus,
 ) {
@@ -25,5 +26,5 @@ data class IntervalProgress(
     val progress: Float,
     val currentDuration: Duration,
     val duration: Duration,
-    val intervalType: IntervalType,
+    val title: String,
 )

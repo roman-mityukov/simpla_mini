@@ -22,7 +22,7 @@ internal abstract class NetworkRetrofitModule {
             val contentType = "application/json".toMediaType()
             val retrofit =
                 Retrofit.Builder()
-                    .baseUrl("https://www.jsonkeeper.com/")
+                    .baseUrl("https://sr111.05.testing.place/api/v2/interval-timers/")
                     .client(okHttpClient)
                     .addConverterFactory(Json.asConverterFactory(contentType))
                     .build()
@@ -36,10 +36,10 @@ internal abstract class NetworkRetrofitModule {
 
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor {
-                    val token = "secret"
+                    val token = "Bearer pdhO16atBIXogpPzaLDjDcl5Gpmbz9Mdl1mjhrhWZBuOgNCgxDlk7mMIbFcEc7mj"
 
                     val newRequest = it.request().newBuilder()
-                        .addHeader("App-Token", token)
+                        .addHeader("Authorization", token)
                         .build()
                     it.proceed(newRequest)
                 }

@@ -34,13 +34,14 @@ private fun Training.toEmptyProgress(): TrainingStatus.Progress {
             progress = 0f,
             duration = it.duration,
             currentDuration = 0.seconds,
-            intervalType = it.intervalType,
+            title = it.title,
         )
     }
     return TrainingStatus.Progress(
         data = TrainingProgress(
             intervalProgress = intervalProgress,
             currentDuration = 0.seconds,
+            totalDuration = this.duration,
             track = listOf(),
             status = TrainingLaunchStatus.NotStarted,
         )
@@ -69,7 +70,7 @@ fun Training.toListIntervalProgress(trainingDuration: Duration): List<IntervalPr
             progress = progress,
             currentDuration = currentDuration,
             duration = interval.duration,
-            intervalType = interval.intervalType,
+            title = interval.title,
         )
     }
     return result

@@ -15,7 +15,7 @@ class TrainingRemoteDataSourceImpl @Inject constructor(
         withContext(coroutineDispatcher) {
             val request = remoteApi.getTraining()
             val response = request.execute()
-            val remoteTraining = response.body()!!
-            remoteTraining
+            val remoteResult = response.body()!!
+            remoteResult.timer
         }
 }
