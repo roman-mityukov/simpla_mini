@@ -13,7 +13,7 @@ class TrainingRemoteDataSourceImpl @Inject constructor(
 ) : TrainingRemoteDataSource {
     override suspend fun getTraining(trainingId: String): RemoteTraining =
         withContext(coroutineDispatcher) {
-            val request = remoteApi.getTraining()
+            val request = remoteApi.getTraining(trainingId)
             val response = request.execute()
             val remoteResult = response.body()!!
             remoteResult.timer

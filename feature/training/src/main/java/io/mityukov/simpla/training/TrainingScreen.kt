@@ -40,6 +40,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
@@ -66,6 +67,11 @@ internal fun TrainingScreen(
             }
         }
     )
+
+    LaunchedEffect(Unit) {
+        viewModel.add(TrainingEvent.SetupTraining)
+    }
+
     val viewModelState by viewModel.stateFlow.collectAsStateWithLifecycle()
     Scaffold(
         topBar = {

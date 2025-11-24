@@ -19,6 +19,7 @@ sealed interface TrainingState {
 }
 
 sealed interface TrainingEvent {
+    data object SetupTraining : TrainingEvent
     data object SwitchTraining : TrainingEvent
 }
 
@@ -26,12 +27,6 @@ sealed interface TrainingEvent {
 class TrainingViewModel @Inject constructor(
     private val trainingController: TrainingController,
 ) : ViewModel() {
-    init {
-        viewModelScope.launch {
-            trainingController.setupTraining()
-        }
-    }
-
     val stateFlow = trainingController.status.map {
         val state = when (it) {
             is TrainingStatus.Progress -> {
@@ -55,6 +50,12 @@ class TrainingViewModel @Inject constructor(
             when (event) {
                 TrainingEvent.SwitchTraining -> {
                     trainingController.switchTraining()
+                }
+
+                TrainingEvent.SetupTraining -> {
+                    viewModelScope.launch {
+                        trainingController.setupTraining()
+                    }
                 }
             }
         }

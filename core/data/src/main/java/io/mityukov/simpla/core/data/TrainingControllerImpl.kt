@@ -108,9 +108,8 @@ class TrainingControllerImpl @Inject constructor(
     }
 
     override suspend fun setupTraining() {
-        val currentStatus = status.first()
         val selectedTraining = selectedTrainingRepository.getSelectedTraining()
-        if (currentStatus is TrainingStatus.TrainingNotSelected && selectedTraining != null) {
+        if (selectedTraining != null) {
             mutableStateFlow.update {
                 selectedTraining.toEmptyProgress()
             }

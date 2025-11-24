@@ -5,6 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 @Serializable
 enum class RemoteIntervalType {
@@ -28,6 +29,6 @@ data class RemoteTimer(val timer: RemoteTraining)
 data class RemoteInterval(val title: String, val time: Int)
 
 interface RemoteApi {
-    @GET("68")
-    fun getTraining(): Call<RemoteTimer>
+    @GET("{id}")
+    fun getTraining(@Path("id") id: String): Call<RemoteTimer>
 }
